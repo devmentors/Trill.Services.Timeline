@@ -33,9 +33,6 @@ namespace Trill.Services.Timeline.Infrastructure
     {
         public static IConveyBuilder AddInfrastructure(this IConveyBuilder builder)
         {
-            builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(LoggingCommandHandlerDecorator<>));
-            builder.Services.TryDecorate(typeof(IEventHandler<>), typeof(LoggingEventHandlerDecorator<>));
-            
             builder.Services
                 .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
                 .AddTransient<IStorage, RedisStorage>();
@@ -60,6 +57,9 @@ namespace Trill.Services.Timeline.Infrastructure
 
             builder.Services.AddScoped<LogContextMiddleware>()
                 .AddSingleton<ICorrelationIdFactory, CorrelationIdFactory>();
+            
+            builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(LoggingCommandHandlerDecorator<>));
+            builder.Services.TryDecorate(typeof(IEventHandler<>), typeof(LoggingEventHandlerDecorator<>));
             
             return builder;
         }
