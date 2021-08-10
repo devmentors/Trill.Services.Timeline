@@ -75,6 +75,7 @@ namespace Trill.Services.Timeline.Infrastructure
                 .UseAuthentication()
                 .UseRabbitMq()
                 .SubscribeEvent<StorySent>()
+                .SubscribeEvent<StoryRated>()
                 .SubscribeEvent<UserFollowed>()
                 .SubscribeEvent<UserUnfollowed>();
 
