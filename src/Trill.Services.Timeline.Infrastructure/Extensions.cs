@@ -12,6 +12,7 @@ using Convey.LoadBalancing.Fabio;
 using Convey.MessageBrokers;
 using Convey.MessageBrokers.CQRS;
 using Convey.MessageBrokers.RabbitMQ;
+using Convey.MessageBrokers.RabbitMQ.Serializers;
 using Convey.Metrics.Prometheus;
 using Convey.Persistence.Redis;
 using Convey.Security;
@@ -48,7 +49,8 @@ namespace Trill.Services.Timeline.Infrastructure
                 .AddHttpClient()
                 .AddConsul()
                 .AddFabio()
-                .AddRabbitMq(plugins: p => p.AddJaegerRabbitMqPlugin())
+                .AddRabbitMq(plugins: p => p.AddJaegerRabbitMqPlugin(),
+                    serializer: new NewtonsoftJsonRabbitMqSerializer())
                 .AddRedis()
                 .AddPrometheus()
                 .AddJaeger()
